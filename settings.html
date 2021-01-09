@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+  <html>
+    <head>
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <link type="text/css" rel="stylesheet" href="css/materialize.min.css"  media="screen,projection"/>
+      <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    </head>
+    <body>
+
+
+      
+    <div class="row" id="updatecard" style="display: none;">
+      <div class="col s12 m12">
+        <div class="card green darken-3">
+          <div class="card-content white-text">
+            <span class="card-title">Update available</span>
+            <p id="desc"></p>
+          </div>
+          <div class="card-action">
+            <a id="link">Update</a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" id="apply" style="display: none;">
+    <div class="col s12 m12">
+      <div class="card green darken-3">
+        <div class="card-content white-text">
+          <span class="card-title">Restart required</span>
+          <p>In order to apply settings, PineSQL has to be restarted.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Check updates</span>
+              <p>Check updates on startup</p>
+            </div>
+            <div class="card-action">
+              <div class="switch">
+                <label>
+                  Disable
+                  <input type="checkbox" checked="checked" id="settings_update" onclick="settings_set('settings_update', 'settings_update'); apply()">
+                  <span class="lever"></span>
+                  Enable
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Show "Build result" button</span>
+              <p>Show/hide "Build result" button on main screen</p>
+            </div>
+            <div class="card-action">
+              <div class="switch">
+                <label>
+                  Hide
+                  <input type="checkbox" checked="checked" id="settings_build" onclick="settings_set('settings_build', 'settings_build'); apply()">
+                  <span class="lever"></span>
+                  Show
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Show function execution time</span>
+              <p>Show/hide function execution time label on main screen</p>
+            </div>
+            <div class="card-action">
+              <div class="switch">
+                <label>
+                  Hide
+                  <input type="checkbox" checked="checked" id="settings_functiontime" onclick="settings_set('settings_functiontime', 'settings_functiontime'); apply()">
+                  <span class="lever"></span>
+                  Show
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col s12 m12">
+          <div class="card blue-grey darken-1">
+            <div class="card-content white-text">
+              <span class="card-title">Developer mode</span>
+              <p>Open developer mode on PineSQL startup</p>
+            </div>
+            <div class="card-action">
+              <div class="switch">
+                <label>
+                  Off
+                  <input type="checkbox" id="settings_developer" onclick="settings_set('settings_developer', 'settings_developer'); apply()">
+                  <span class="lever"></span>
+                  On
+                </label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <script>
+      const electron = require('electron')
+      const ipc = require('electron').ipcRenderer
+      const settings = require('electron-settings')
+      const settings_build_check = document.getElementById("settings_build")
+      const settings_functiontime_check = document.getElementById("settings_functiontime")
+      const applycard = document.getElementById('apply')
+      const settings_developer_check = document.getElementById("settings_developer")
+      const settings_update_check = document.getElementById("settings_update")
+      const update_card = document.getElementById("updatecard")
+      const update_desc = document.getElementById("desc")
+      const update_link = document.getElementById("link")
+
+      if(settings.has('settings_build') === true){
+        if(typeof settings.get('settings_build') === "boolean"){
+          if(settings.get('settings_build') === true){
+            settings_build_check.checked = "checked"
+          } else {
+            settings_build_check.checked = ""
+          }
+        }
+      }
+      if(settings.has('settings_functiontime') === true){
+        if(typeof settings.get('settings_functiontime') === "boolean"){
+          if(settings.get('settings_functiontime') === true){
+            settings_functiontime_check.checked = "checked"
+          } else {
+            settings_functiontime_check.checked = ""
+          }
+        }
+      }
+      if(settings.has('settings_developer') === true){
+        if(typeof settings.get('settings_developer') === "boolean"){
+          if(settings.get('settings_developer') === true){
+            settings_developer_check.checked = "checked"
+          } else {
+            settings_developer_check.checked = ""
+          }
+        }
+      }
+      if(settings.has('settings_update') === true){
+        if(typeof settings.get('settings_update') === "boolean"){
+          if(settings.get('settings_update') === true){
+            settings_update_check.checked = "checked"
+          } else {
+            settings_update_check.checked = ""
+          }
+        }
+      }
+
+      function settings_set(name, id){
+        settings.set(name, document.getElementById(id).checked)
+        // console.log(name + document.getElementById(id).checked)
+      }
+
+      function apply(){
+        applycard.style.display = "inline"
+      }
+
+      /* ipc.on('update', function(event, version) {
+        updatecard.style.display = "inline"
+        update_desc.innerText = `New version available: ${version}`
+        update_link.onclick = function() { electron.shell.openExternal('https://github.com/ivan770/pinesql/releases') }
+      }) */
+      </script>
+      <script type="text/javascript" src="js/materialize.min.js"></script>
+    </body>
+</html>

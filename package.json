@@ -1,0 +1,39 @@
+{
+  "name": "pinesql",
+  "version": "1.8.0",
+  "description": "Electron-based SQL editor",
+  "productName": "PineSQL",
+  "main": "./main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build",
+    "standard": "standard --fix"
+  },
+  "build": {
+    "linux": {
+      "target": "deb",
+      "icon": "img/icon.png"
+    },
+    "win": {
+      "target": "NSIS",
+      "icon": "img/icon.ico"
+    }
+  },
+  "author": {
+    "name": "ivan770",
+    "email": "leshenko.ivan770@gmail.com"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "compare-versions": "^3.3.0",
+    "electron-settings": "^3.2.0",
+    "mysql": "^2.15.0",
+    "request": "^2.87.0"
+  },
+  "devDependencies": {
+    "electron": "^2.0.8",
+    "electron-builder": "^20.16.4",
+    "electron-settings": "^3.2.0"
+  }
+}
